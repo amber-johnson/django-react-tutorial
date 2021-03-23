@@ -1,9 +1,6 @@
-import logo from './logo.svg';
-import './App.css';
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import Modal from "./components/Modal";
 import axios from "axios";
-
 
 class App extends Component {
     constructor(props) {
@@ -22,13 +19,13 @@ class App extends Component {
 
     componentDidMount() {
         this.refreshList();
-    };
+    }
 
     refreshList = () => {
         axios
             .get("/api/todos/")
-            .then((res) => this.setState( {todoList: res.data }))
-            .catch((err) => console.log(err))
+            .then((res) => this.setState({ todoList: res.data }))
+            .catch((err) => console.log(err));
     };
 
     toggle = () => {
@@ -40,21 +37,19 @@ class App extends Component {
 
         if (item.id) {
             axios
-                .put(` /api/todos/${item.id}/`, item)
-                .then((rest) => this.refreshList());
+                .put(`/api/todos/${item.id}/`, item)
+                .then((res) => this.refreshList());
             return;
         }
         axios
-            .post("api/todos/", item)
+            .post("/api/todos/", item)
             .then((res) => this.refreshList());
-        //alert("save" + JSON.stringify(item));
     };
 
     handleDelete = (item) => {
         axios
             .delete(`/api/todos/${item.id}/`)
             .then((res) => this.refreshList());
-        //alert("delete" + JSON.stringify(item));
     };
 
     createItem = () => {
@@ -78,18 +73,18 @@ class App extends Component {
     renderTabList = () => {
         return (
             <div className="nav nav-tabs">
+        <span
+            onClick={() => this.displayCompleted(true)}
+            className={this.state.viewCompleted ? "nav-link active" : "nav-link"}
+        >
+          Complete
+        </span>
                 <span
-                    className={this.state.viewCompleted ? "nav-link active" : "nav-link"}
-                    onClick={() => this.displayCompleted(true)}
-                    >
-                    Complete
-                </span>
-                <span
-                    className={this.stateViewCompleted ? "nav-link" : "nav-link active"}
                     onClick={() => this.displayCompleted(false)}
-                    >
-                    Incomplete
-                </span>
+                    className={this.state.viewCompleted ? "nav-link" : "nav-link active"}
+                >
+          Incomplete
+        </span>
             </div>
         );
     };
@@ -97,7 +92,7 @@ class App extends Component {
     renderItems = () => {
         const { viewCompleted } = this.state;
         const newItems = this.state.todoList.filter(
-            (item) => item.completed == viewCompleted
+            (item) => item.completed === viewCompleted
         );
 
         return newItems.map((item) => (
@@ -105,28 +100,28 @@ class App extends Component {
                 key={item.id}
                 className="list-group-item d-flex justify-content-between align-items-center"
             >
-                <span
-                    className={`todo-title mr-2 ${
-                        this.state.viewCompleted ? "completed-todo" : ""
-                    }`}
-                    title={item.description}
-                >
-                    {item.title}
-                </span>
+        <span
+            className={`todo-title mr-2 ${
+                this.state.viewCompleted ? "completed-todo" : ""
+            }`}
+            title={item.description}
+        >
+          {item.title}
+        </span>
                 <span>
-                    <button
-                        className="btn btn-secondary mr-2"
-                        onClick={() => this.editItem(item)}
-                        >
-                        Edit
-                        </button>
-                        <button
-                            className="btn btn-danger"
-                            onClick={() => this.handleDelete(item)}
-                            >
-                            Delete
-                        </button>
-                </span>
+          <button
+              className="btn btn-secondary mr-2"
+              onClick={() => this.editItem(item)}
+          >
+            Edit
+          </button>
+          <button
+              className="btn btn-danger"
+              onClick={() => this.handleDelete(item)}
+          >
+            Delete
+          </button>
+        </span>
             </li>
         ));
     };
@@ -158,11 +153,11 @@ class App extends Component {
                         activeItem={this.state.activeItem}
                         toggle={this.toggle}
                         onSave={this.handleSubmit}
-                        />
-                    ) : null}
+                    />
+                ) : null}
             </main>
         );
     }
-    }
+}
 
 export default App;

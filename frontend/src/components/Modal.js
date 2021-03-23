@@ -3,8 +3,8 @@ import {
     Button,
     Modal,
     ModalHeader,
-    ModalFooter,
     ModalBody,
+    ModalFooter,
     Form,
     FormGroup,
     Input,
@@ -20,7 +20,7 @@ export default class CustomModal extends Component {
     }
 
     handleChange = (e) => {
-        let { name, value, } = e.target;
+        let { name, value } = e.target;
 
         if (e.target.type === "checkbox") {
             value = e.target.checked;
@@ -40,7 +40,7 @@ export default class CustomModal extends Component {
                 <ModalBody>
                     <Form>
                         <FormGroup>
-                            <Label for="fodo-title">Title</Label>
+                            <Label for="todo-title">Title</Label>
                             <Input
                                 type="text"
                                 id="todo-title"
@@ -58,7 +58,7 @@ export default class CustomModal extends Component {
                                 name="description"
                                 value={this.state.activeItem.description}
                                 onChange={this.handleChange}
-                                placeholder="Enter Todo Description"
+                                placeholder="Enter Todo description"
                             />
                         </FormGroup>
                         <FormGroup check>
@@ -67,7 +67,7 @@ export default class CustomModal extends Component {
                                     type="checkbox"
                                     name="completed"
                                     checked={this.state.activeItem.completed}
-                                    onChange={this.handledChange}
+                                    onChange={this.handleChange}
                                 />
                                 Completed
                             </Label>
